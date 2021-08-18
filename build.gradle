@@ -3,14 +3,18 @@
 buildscript {
     
     repositories {
+        mavenLocal()
         google()
         jcenter()
         maven{  url "https://plugins.gradle.org/m2/" }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.10.2'
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -19,8 +23,10 @@ buildscript {
 
 apply plugin: 'io.codearte.nexus-staging'
 
+
 allprojects {
     repositories {
+        mavenLocal()
         google()
         jcenter()
         maven {
@@ -50,4 +56,3 @@ ext {
 ext {
     room_version = "1.1.1"
 }
-

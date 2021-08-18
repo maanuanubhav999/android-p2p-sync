@@ -3,6 +3,7 @@ package org.smartregister.p2p.sample.dao;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.smartregister.p2p.model.DataType;

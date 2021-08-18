@@ -10,4 +10,3 @@
 .externalNativeBuild
 
 .idea
-**/jacoco.exec

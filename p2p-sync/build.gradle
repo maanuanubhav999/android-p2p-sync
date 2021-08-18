@@ -1,11 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
 
-
-jacoco {
-    toolVersion = "0.8.2"
-}
 
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -31,13 +26,13 @@ android {
     buildTypes {
 
         debug {
-            testCoverageEnabled true
+            testCoverageEnabled false
             minifyEnabled false
         }
 
         release {
             minifyEnabled false
-            testCoverageEnabled true
+            testCoverageEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -85,37 +80,6 @@ dependencies {
 
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-
-    getReports().getXml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"))
-    getReports().getHtml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/html"))
-
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*$ViewBinder*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
-}
-
-tasks.withType(Test) {
-    jacoco.includeNoLocationClasses = true
-}
-
-coveralls {
-    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"
-    // Re-add the line below if coveralls still cannot shows "No source file found on the project: "p2p-sync"
-    // after adding some code files
-    //sourceDirs += ["src/main/java"]
-}
 
 def isReleaseBuild() {
     return version.contains("SNAPSHOT") == false
